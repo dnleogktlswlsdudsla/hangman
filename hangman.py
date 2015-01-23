@@ -59,11 +59,22 @@ HANGMANPICS = ['''
  / \  |
       |
 =========''']
-words=''
-readWordList(words)
-def readWordList(words):
-	file=open('test.txt','r')
-	words = file.read().split()
+
+def readWordList():
+    file=open('test.txt','r')
+    words = file.read().split()
+    return words
+words=readWordList()
+
+def bestScore(score):
+    file=open('score.txt','r')
+    best=int(file.read())
+    if(score>best):
+        file=open('score.txt','w')
+        file.write(str(score))
+        best=score
+    print("best Score : ",end="")
+    print(best)
 
 def getRandomWord(wordList):
     # This function returns a random string from the passed list of strings.
@@ -133,7 +144,7 @@ def main():
     gameSucceeded = False
     gameFailed = False
     secretWord = getRandomWord(words)
-
+    score=0
     while True:
         displayBoard(HANGMANPICS, missedLetters, correctLetters, secretWord)
 
@@ -150,6 +161,8 @@ def main():
                 gameSucceeded = False
                 gameFailed = False
                 secretWord = getRandomWord(words)
+                bestScore(score)
+                score=0
                 continue 
             else: 
                 break
@@ -159,6 +172,7 @@ def main():
         if guess in secretWord:
             correctLetters = correctLetters + guess
             gameSucceeded = checkCorrectAnswer(correctLetters, secretWord)
+            score+=10
         else:
             missedLetters = missedLetters + guess
             gameFailed = checkWrongAnswer(missedLetters, secretWord)

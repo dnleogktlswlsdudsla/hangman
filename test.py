@@ -13,4 +13,4 @@ class testCase(unittest.TestCase):
 		ret=hangman.checkWrongAnswer(corretLetters,sectertWord)
 		self.assertTrue(ret)
 if __name__=="__main__":
-unittest.main()
+    unittest.main()
